@@ -17,6 +17,7 @@ let lines = [];
 let lastMX;
 let lastMY;
 
+let mouse;
 function preload() {
   font = loadFont("ethnocentric_rg.ttf");
 
@@ -46,6 +47,7 @@ function setup() {
 
 function draw() {
   background(bgColor);
+  mouse = createVector(mouseX, mouseY);
 
   for(markTA of marksToAdd){
     markTA.behaviours();

@@ -41,9 +41,9 @@ Mark.prototype.explode = function () {
 };
 
 Mark.prototype.behaviours = function () {
-  var mouse = createVector(mouseX, mouseY);
-  var arrive = this.arrive(this.target);
-  var flee = this.flee(mouse);
+  let arrive = this.arrive(this.target);
+  let flee = this.flee(mouse);
+
 
   arrive.mult(1);
   flee.mult(3);
@@ -77,27 +77,27 @@ Mark.prototype.show = function () {
 };
 
 Mark.prototype.arrive = function (target) {
-  var desired = createVector();
+  let desired = createVector();
   desired.x = target.x;
   desired.y = target.y;
   desired.x -= this.pos.x;
   desired.y -= this.pos.y;
   //desired = p5.Vector.sub(target, this.pos);
-  var d = desired.mag();
-  var speed = this.maxspeed;
+  let d = desired.mag();
+  let speed = this.maxspeed;
   if(d < 100){
     speed = map(d, 0, 100, 0, this.maxspeed);
   }
   desired.setMag(speed);
-  var steer = p5.Vector.sub(desired, this.vel);
+  let steer = p5.Vector.sub(desired, this.vel);
   steer.limit(this.maxforce);
   return steer;
 };
 
 Mark.prototype.flee = function (target) {
-  var steer = createVector(0, 0);
-  var desired = p5.Vector.sub(target, this.pos);
-  var d = desired.mag();
+  let steer = createVector(0, 0);
+  let desired = p5.Vector.sub(target, this.pos);
+  let d = desired.mag();
   if(d < 100){
     desired.setMag(this.maxspeed);
     desired.mult(-1);
