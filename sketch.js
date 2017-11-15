@@ -31,7 +31,7 @@ function setup() {
   background(bgColor);
 
   txt = "SunFlow";
-  let markColor = 255;
+  let markColor = color(255, 255,255);
 
   let points = font.textToPoints(txt, 0, 0, txtSize);
   let txtDim = getDimensions(points);
