@@ -19,6 +19,8 @@ let lastMY;
 
 let writting;
 let writtenText;
+let positionInText;
+let showPiT;
 
 function preload() {
   font = loadFont("ethnocentric_rg.ttf");
@@ -26,9 +28,11 @@ function preload() {
   bgColor = 25;
   txtSize = 200;
   txtThickness = 8;
+  txt = "SunFlow";
   written = false;
   writtenText = "";
-  txt = "SunFlow";
+  positionInText = 0;
+  showPiT = false;
 }
 
 function setup() {
@@ -80,12 +84,19 @@ function draw() {
     mark.show();
   }
 
+  if(writting){
+    stroke(255);
+    strokeWeight(5);
+    textFont("Ariel");
+    textSize(50);
+    let wT = writtenText.substr(0, positionInText);
+    if(showPiT) wT += ".";
+    else wT += " ";
+    wT += writtenText.substr(positionInText, writtenText.length);
+    text(wT, 5, 50);
 
-  stroke(255);
-  strokeWeight(5);
-  textFont("Ariel");
-  textSize(50);
-  text(writtenText, 5, 50);
+    showPiT = !showPiT;
+  }
 
   stroke(255);
   strokeWeight(5);
@@ -212,20 +223,32 @@ function mouseReleased(evt){
 }
 
 function keyPressed(e){
-  console.log(e);
   if(e.key == "Enter"){
     if(writting){
       changeText(writtenText);
       writtenText = "";
+      positionInText = 0;
     }
     writting = !writting;
     return;
   }
   if(writting){
     if(e.key == "Backspace"){
-        writtenText = writtenText.substr(0, writtenText.length-1);
-    }else{
-        writtenText = writtenText + getKeyChar(e);
+      if(positionInText > 0){
+        writtenText = writtenText.substr(0, positionInText-1) + writtenText.substr(positionInText, writtenText.length-1);
+        positionInText --;
+      }
+    }else if(e.key == "Delete"){
+      if(positionInText < writtenText.length){
+        writtenText = writtenText.substr(0, positionInText) + writtenText.substr(positionInText+1, writtenText.length-1);
+      }
+    }else if(e.key == "ArrowLeft"){
+      if(positionInText > 0) positionInText --;
+    }else if(e.key == "ArrowRight"){
+      if(positionInText < writtenText.length) positionInText ++;
+    }else{;
+        if(positionInText == writtenText.length) positionInText ++;
+        writtenText = writtenText + getKeyChar(e)
     }
   }else{
     if(e.key == "l" || e.key == "L"){
@@ -246,27 +269,8 @@ function keyPressed(e){
       changeText(txt);
     }
   }
+  console.log(positionInText);
 }
-
-function getKeyCode(char){
-  let chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-
-  for(let i = 0; i < chars.length; i++) {
-    if(chars[i] == char){
-      return i+65;
-    }
-  }
-  let specials = ["backspace", "tab", "enter", "shift", "control", "alt", "pause", "caps", "escape", "pageup", "pagedown", "end", "home", "left", "up", "right", "down", "insert", "delete", "leftwindowkey", "rightwindowkey", "selectkey", "mult", "add", "sub", "decimalpoint", "divide", "numlock", "scrolllock", "semicolon", "equal", "comma", "dash", "dot", "forward-slash", "grave", "open-bracket", "backslash", "close-bracket", "simple-execute", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "np0", "np1", "np2", "np3", "np4", "np5", "np6", "np7", "np8", "np9"];
-  let specialsNum = [8, 9, 13, 16, 17, 18, 19, 20, 27, 33, 35, 35, 36, 37, 38, 39, 40, 45, 46, 91, 92, 93, 106, 107, 109, 110, 111, 144, 145, 186, 187, 188, 189, 190, 191, 192, 219, 220, 221, 222, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105];
-
-  for (var i = 0; i < specials.length; i++) {
-    if(specials[i] == char){
-      return specialsNum[i];
-    }
-  }
-  return 4711;
-}
-
 
 function getKeyChar(event){
   let key = event.key;
