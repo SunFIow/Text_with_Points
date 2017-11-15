@@ -16,6 +16,10 @@ Mark.prototype.setPosition = function (pos) {
   this.pos = pos;
 };
 
+Mark.prototype.setThickness = function (thickness) {
+  this.r = thickness;
+};
+
 Mark.prototype.changeTarget = function (target) {
   this.target = target;
 };
@@ -44,12 +48,11 @@ Mark.prototype.behaviours = function () {
   let arrive = this.arrive(this.target);
   let flee = this.flee(mouse);
 
-
   arrive.mult(1);
   flee.mult(3);
 
   this.applyForce(arrive);
-  if(mPressed){
+  if(mPressed.contains(0)){
     this.applyForce(flee);
   }
 };
