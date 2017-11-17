@@ -138,8 +138,8 @@ function changeText(str){
   let txDim;
   txtSize = 210;
   do{
-    txtDim = getDimensions(font.textToPoints(str, 0, 0, txtSize));
     txtSize -= 10;
+    txtDim = getDimensions(font.textToPoints(str, 0, 0, txtSize));
   }while(txtDim.width + 100 > width || txtDim.height + 50 > height);
   //createCanvas(txtDim.width + 100, height);
 
@@ -152,9 +152,9 @@ function changeText(str){
       if(i < marks.length){
         marks[i].changeTarget(points[i])
         marks[i].changeColor(markColor);
-        marks[i].setThickness(Math.floor(txtThickness/(200/txtSize)));
+        marks[i].setThickness(map(Math.floor(txtThickness/(200/txtSize)), 8, 0, 8, 4));
       }else{
-        let mark = new Mark(points[i].x, points[i].y, markColor, Math.floor(txtThickness/(300/txtSize)));
+        let mark = new Mark(points[i].x, points[i].y, markColor, map(Math.floor(txtThickness/(200/txtSize)), 8, 0, 8, 4));
         mark.setPosition(createVector(
             marks[Math.floor(marks.length-(i - marks.length + 1)/(points.length/marks.length))].pos.x,
             marks[Math.floor(marks.length-(i - marks.length + 1)/(points.length/marks.length))].pos.y
@@ -172,7 +172,7 @@ function changeText(str){
     for (let i = 0; i < marks.length; i++) {
       let markColor = getColor(points[i].x, Math.PI*2/txtDim.width);
       marks[i].changeTarget(points[i]);
-      marks[i].setThickness(Math.floor(txtThickness/(200/txtSize)));
+      marks[i].setThickness(map(Math.floor(txtThickness/(200/txtSize)), 8, 0, 8, 4));
       marks[i].changeColor(markColor);
     }
     for(markTR of marksToRemove){
